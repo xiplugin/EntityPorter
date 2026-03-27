@@ -1,4 +1,4 @@
-[**简体中文**](https://github.com/xiplugin/EntityPorter/blob/master/README.md)
+[**简体中文**](https://github.com/xiplugin/EntityPorter/blob/main/README.md)
 
 ### EntityPorter
 **EntityPorter** is a lightweight Minecraft server plugin designed for **Paper/Spigot 1.21+**. It allows players to pick up, carry, and transport entities (like Animals and Villagers) on their heads. Perfect for moving villagers or organizing your farm without the hassle of lead ropes or boats!

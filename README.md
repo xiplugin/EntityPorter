@@ -1,4 +1,4 @@
-[**ENGLISH**](https://github.com/xiplugin/EntityPorter/blob/master/README.en.md)
+[**ENGLISH**](https://github.com/xiplugin/EntityPorter/blob/main/README.en.md)
 
 ### EntityPorter
 **EntityPorter** 是一款为 **Paper/Spigot 1.21+** 设计的轻量化插件。它允许玩家将实体（如动物、村民）举在头顶进行运输。无论是搬运村民还是整理牧场，都不再需要复杂的绳索或小船！
