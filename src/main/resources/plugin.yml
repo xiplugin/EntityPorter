@@ -1,0 +1,16 @@
+name: EntityPorter
+version: '1.0.0'
+main: com.coderxi.plugin.entityPorter.EntityPorter
+api-version: '1.21'
+author: "coderxi"
+website: https://github.com/coderxi1/EntityPorter
+permissions:
+  entityporter.use:
+    default: op
+  entityporter.reload:
+    default: op
+commands:
+  entityporter:
+    description: EntityPorter Main Command
+    usage: /entityporter <toggle|reload>
+    aliases: [ep]
