@@ -5,7 +5,7 @@
 
 ### 功能特性
 * **举起与运输:** **Shift + 右键** 举起实体实体（动物、村民等）
-* **便捷放下:** 只需按下 **Shift** 即可放下实体。
+* **便捷放下:** 按下 **Shift** 即可放下实体，**Shift+左键**抛出实体，**Shift+右键**放置实体
 * **抢夺系统:** 可配置是否允许从其他玩家头上“抢走”生物。
 * **多世界管理:** 可限制插件仅在特定世界生效。
 * **MiniMessage 支持:** 完美支持现代化的彩色文本格式。
@@ -30,8 +30,10 @@ messages:
   reloaded: '<gray>重载完成'
   enabled: '已开启举起实体功能'
   disabled: '已关闭举起实体功能'
-  lifted: '已举起生物，按Shift放下'
+  lifted: '已举起生物，Shift放下，Shift+左键抛出，Shift+右键放置'
   dropped: '已放下生物'
+  tossed: '已抛出生物'
+  placed: '已将生物放置'
   lifting-entity-dead: '举着的生物死掉啦'
   other-looted: '举着的生物被{0}抢走啦'
   looted: '你抢走了{0}的生物'

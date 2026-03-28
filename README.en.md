@@ -5,7 +5,7 @@
 
 ### ✨ Features
 * **Pick & Carry:** **Shift + Right click** to lift entities (Animals, Villagers, etc.).
-* **Simple Drop:** Just press **Shift** to release the entity.
+* **Simple Drop:** Press **Shift** to drop, **Shift + Left Click** to toss, **Shift + Right Click** to place
 * **Looting System:** Configurable option to allow "stealing" an entity from another player's head.
 * **World Management:** Restrict the plugin to specific worlds.
 * **MiniMessage Support:** Full support for modern, colorful hex messages.
@@ -30,8 +30,10 @@ messages:
   reloaded: '<gray>Reloaded successfully'
   enabled: 'Lifting enabled'
   disabled: 'Lifting disabled'
-  lifted: 'Entity lifted! Press Shift to drop'
+  lifted: 'Entity lifted! Press Shift to drop, Shift+LeftClick to toss, Shift+RightClick to place'
   dropped: 'Entity dropped'
+  tossed: 'Entity tossed'
+  placed: 'Entity placed'
   lifting-entity-dead: 'The entity died'
   other-looted: 'Your entity was taken by {0}'
   looted: 'You took {0}''s entity'
