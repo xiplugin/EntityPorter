@@ -4,6 +4,7 @@ import com.coderxi.plugin.entityPorter.core.Porter;
 import com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.bukkit.command.Command;
@@ -12,12 +13,11 @@ import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerToggleSneakEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jspecify.annotations.NonNull;
@@ -37,6 +37,7 @@ public final class EntityPorter extends JavaPlugin implements Listener {
     private boolean allAnimalsLiftable = false;
     private Set<EntityType> liftableEntities;
     private final Set<UUID> porters = ConcurrentHashMap.newKeySet();
+    private final Set<UUID> pendingLiftPlayers = ConcurrentHashMap.newKeySet();
 
 
     @Override
@@ -44,6 +45,11 @@ public final class EntityPorter extends JavaPlugin implements Listener {
         saveDefaultConfig();
         onReload(true);
         getServer().getPluginManager().registerEvents(this, this);
+    }
+
+    @Override
+    public void onDisable() {
+        porters.forEach(p->Porter.of(Bukkit.getPlayer(p)).drop());
     }
 
     public void onReload(boolean init) {
@@ -91,6 +97,7 @@ public final class EntityPorter extends JavaPlugin implements Listener {
             Player porter = getEntityPorter(entity);
             if (porter == null) {
                 Porter.of(player).lift(entity, createArmorStand);
+                pendingLiftPlayers.add(player.getUniqueId());
                 player.sendActionBar(local("lifted"));
                 return;
             }
@@ -98,6 +105,7 @@ public final class EntityPorter extends JavaPlugin implements Listener {
                 Porter.of(porter).drop();
                 porter.sendActionBar(local("other-looted", player.getName()));
                 Porter.of(player).lift(entity, createArmorStand);
+                pendingLiftPlayers.add(player.getUniqueId());
                 player.sendActionBar(local("looted", porter.getName()));
             } else {
                 player.sendActionBar(local("has-porter", porter.getName()));
@@ -106,10 +114,32 @@ public final class EntityPorter extends JavaPlugin implements Listener {
     }
 
     @EventHandler
+    public void onInteract(PlayerInteractEvent event) {
+        if (event.getHand() == EquipmentSlot.OFF_HAND) return;
+        Player player = event.getPlayer();
+        if (!player.isSneaking() || player.getPassengers().isEmpty()) return;
+        if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
+            if (pendingLiftPlayers.contains(player.getUniqueId())) return;
+            event.setCancelled(true);
+            Porter.of(player).toss();
+            player.sendActionBar(local("tossed"));
+        }
+        else if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            event.setCancelled(true);
+            Porter.of(player).place(Objects.requireNonNull(event.getClickedBlock()), event.getBlockFace());
+            player.sendActionBar(local("placed"));
+        }
+    }
+
+    @EventHandler
     public void onPlayerSneak(PlayerToggleSneakEvent event) {
-        if (!event.isSneaking()) return;
+        if (event.isSneaking()) return;
         Player player = event.getPlayer();
         if (player.getPassengers().isEmpty()) return;
+        if (pendingLiftPlayers.contains(player.getUniqueId())) {
+            pendingLiftPlayers.remove(player.getUniqueId());
+            return;
+        }
         Porter.of(player).drop();
         player.sendActionBar(local("dropped"));
     }
@@ -201,5 +231,4 @@ public final class EntityPorter extends JavaPlugin implements Listener {
         getLogger().warning("Invalid EntityType:" + typeName);
         return null;
     }
-
 }

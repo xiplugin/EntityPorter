@@ -18,6 +18,8 @@ messages:
   disabled: '已关闭举起实体功能'
   lifted: '已举起生物，按Shift放下'
   dropped: '已放下生物'
+  tossed: '已抛出生物'
+  placed: '已将生物放置'
   lifting-entity-dead: '举着的生物死掉啦'
   other-looted: '举着的生物被{0}抢走啦'
   looted: '你抢走了{0}的生物'
