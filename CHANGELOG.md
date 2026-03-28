@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/xiplugin/EntityPorter/compare/v1.1.0...v1.1.1) (2026-03-28)
+
+
+### Bug Fixes
+
+* update default lifted message ([fedeead](https://github.com/xiplugin/EntityPorter/commit/fedeead5674806ab9abb213df30cd4172865f7a3))
+
 ## [1.1.0](https://github.com/xiplugin/EntityPorter/compare/v1.0.0...v1.1.0) (2026-03-28)
 
 
