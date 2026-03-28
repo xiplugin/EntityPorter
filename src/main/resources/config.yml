@@ -16,7 +16,7 @@ messages:
   reloaded: '<gray>重载完成'
   enabled: '已开启举起实体功能'
   disabled: '已关闭举起实体功能'
-  lifted: '已举起生物，按Shift放下'
+  lifted: '已举起生物，Shift放下，Shift+左键抛出，Shift+右键放置'
   dropped: '已放下生物'
   tossed: '已抛出生物'
   placed: '已将生物放置'
