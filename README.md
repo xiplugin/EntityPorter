@@ -10,6 +10,8 @@
 * **多世界管理:** 可限制插件仅在特定世界生效。
 * **MiniMessage 支持:** 完美支持现代化的彩色文本格式。
 
+![77b50979ad0d7bdb5e9faf3526477bb2](https://github.com/user-attachments/assets/2ef57db3-ceb9-4173-b6cc-84641f905430)
+
 ### 配置说明 (`config.yml`)
 ```yaml
 enable-on-join: true        # 玩家进入游戏时是否默认开启功能
