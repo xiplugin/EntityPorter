@@ -1,6 +1,7 @@
 package com.coderxi.plugin.entityPorter;
 
 import com.coderxi.plugin.entityPorter.core.Porter;
+import com.coderxi.plugin.entityPorter.support.SupportManager;
 import com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -38,13 +39,15 @@ public final class EntityPorter extends JavaPlugin implements Listener {
     private Set<EntityType> liftableEntities;
     private final Set<UUID> porters = ConcurrentHashMap.newKeySet();
     private final Set<UUID> pendingLiftPlayers = ConcurrentHashMap.newKeySet();
-
+    private SupportManager supports;
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
         onReload(true);
         getServer().getPluginManager().registerEvents(this, this);
+        supports = new SupportManager();
+        supports.init(this);
     }
 
     @Override
@@ -93,7 +96,7 @@ public final class EntityPorter extends JavaPlugin implements Listener {
         if (!enabledWorlds.contains(player.getWorld().getName().toLowerCase())) return;
         Entity entity = event.getRightClicked();
         if (entity.getType() == EntityType.PLAYER) return;
-        if (liftableEntities.contains(entity.getType()) || (allAnimalsLiftable && entity instanceof Animals)) {
+        if (liftableEntities.contains(entity.getType()) || (allAnimalsLiftable && entity instanceof Animals) && supports.checkAllSupportsPermission(player)) {
             Player porter = getEntityPorter(entity);
             if (porter == null) {
                 Porter.of(player).lift(entity, createArmorStand);
@@ -118,13 +121,13 @@ public final class EntityPorter extends JavaPlugin implements Listener {
         if (event.getHand() == EquipmentSlot.OFF_HAND) return;
         Player player = event.getPlayer();
         if (!player.isSneaking() || player.getPassengers().isEmpty()) return;
-        if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
+        if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK  && supports.checkAllSupportsPermission(player)) {
             if (pendingLiftPlayers.contains(player.getUniqueId())) return;
             event.setCancelled(true);
             Porter.of(player).toss();
             player.sendActionBar(local("tossed"));
         }
-        else if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+        else if (event.getAction() == Action.RIGHT_CLICK_BLOCK && supports.checkAllSupportsPermission(player)) {
             event.setCancelled(true);
             Porter.of(player).place(Objects.requireNonNull(event.getClickedBlock()), event.getBlockFace());
             player.sendActionBar(local("placed"));
@@ -140,8 +143,10 @@ public final class EntityPorter extends JavaPlugin implements Listener {
             pendingLiftPlayers.remove(player.getUniqueId());
             return;
         }
-        Porter.of(player).drop();
-        player.sendActionBar(local("dropped"));
+        if (supports.checkAllSupportsPermission(player)) {
+            Porter.of(player).drop();
+            player.sendActionBar(local("dropped"));
+        }
     }
 
     @EventHandler

@@ -4,6 +4,7 @@ main: com.coderxi.plugin.entityPorter.EntityPorter
 api-version: '1.21'
 author: "coderxi"
 website: https://github.com/coderxi1/EntityPorter
+softdepend: [BentoBox]
 permissions:
   entityporter.use:
     default: op

@@ -24,3 +24,9 @@ messages:
   other-looted: '举着的生物被{0}抢走啦'
   looted: '你抢走了{0}的生物'
   has-porter: '这个生物已经被{0}举起啦'
+
+support:
+  bentobox:
+    flag-name: 举起或放下实体
+    flag-description: 是否允许举起或放下实体
+    no-permission: '<gray>[<aqua>岛屿<gray>] <red>岛屿保护: 你没有权限举起或放下实体'

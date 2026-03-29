@@ -12,11 +12,16 @@ repositories {
         name = "papermc-repo"
         url = "https://repo.papermc.io/repository/maven-public/"
     }
+    maven {
+        name = "bentobox-repo"
+        url "https://repo.codemc.org/repository/bentoboxworld/"
+    }
 }
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
     compileOnly 'org.projectlombok:lombok:1.18.30'
+    compileOnly 'world.bentobox:bentobox:3.12.0-SNAPSHOT'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
 }
 
